@@ -123,6 +123,12 @@ class ZingMp3 {
     });
   }
 
+  getCategories() {
+    return this.requestZing({
+      path: "/api/v2/page/get/hub-home",
+    });
+  }
+
   search(keyword) {
     return this.requestZing({
       path: "/api/v2/search/multi",
