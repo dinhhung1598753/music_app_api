@@ -8,4 +8,9 @@ app.get("/", async (req, res) => {
   res.send(response.topic);
 });
 
+app.get("/ranking", async (req, res) => {
+  const response = await Zing.getChartHome();
+  res.send(response.weekChart);
+});
+
 app.listen(port, () => console.log(`App running at ${port}`));
