@@ -8,9 +8,42 @@ app.get("/", async (req, res) => {
   res.send(response.topic);
 });
 
+app.get("/streaming", async (req, res) => {
+  const { id } = req.query;
+  const response = await Zing.getStreaming(id);
+  res.send(response["128"]);
+});
+
 app.get("/ranking", async (req, res) => {
   const response = await Zing.getChartHome();
-  res.send(response.weekChart);
+  const ranking = {
+    vn: response.weekChart.vn.items,
+    us: response.weekChart.us.items,
+    korea: response.weekChart.korea.items,
+  };
+  res.send({
+    vn: ranking.vn.map((x) => ({
+      id: x.encodeId,
+      name: x.title,
+      singer: x.artistsNames,
+      thumbnail: x.thumbnail,
+      url: "",
+    })),
+    us: ranking.us.map((x) => ({
+      id: x.encodeId,
+      name: x.title,
+      singer: x.artistsNames,
+      thumbnail: x.thumbnail,
+      url: "",
+    })),
+    korea: ranking.korea.map((x) => ({
+      id: x.encodeId,
+      name: x.title,
+      singer: x.artistsNames,
+      thumbnail: x.thumbnail,
+      url: "",
+    })),
+  });
 });
 
 app.listen(port, () => console.log(`App running at ${port}`));
